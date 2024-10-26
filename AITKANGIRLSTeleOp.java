@@ -53,7 +53,6 @@ public class AITKANGIRLSTeleOp extends LinearOpMode {
     //targets for motors
     int armTarget = 0;
     int extendTarget = 0;
-    ElapsedTime armTimer = new ElapsedTime();
     
     boolean holdingTarget = false;
     boolean resetEncoder = false;
@@ -61,7 +60,6 @@ public class AITKANGIRLSTeleOp extends LinearOpMode {
     boolean clipIntake = false;
     boolean hookOutAfterRelease = false;
     
-    int f = 0;
     double intakePower = 0;
     
     
@@ -147,7 +145,6 @@ public class AITKANGIRLSTeleOp extends LinearOpMode {
             }
             
             if(gamepad1.right_bumper || gamepad2.right_bumper) { //PRE-INTAKE
-                armTimer.reset();
                 armTarget=600;
                 wrist.setPosition(1);
             }
@@ -265,17 +262,17 @@ public class AITKANGIRLSTeleOp extends LinearOpMode {
             if (armTarget >= 400){
                     
                 if (arm.getCurrentPosition() <= 400) {
-                    arm.setPower(Math.max(-1, Math.min(1, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
+                    arm.setPower(Math.max(-0.7, Math.min(0.7, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
                 } else {
                     arm.setPower(Math.max(-0.2, Math.min(0.2, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
                 }
             
             }
             if (armTarget < 400) {
-                if (arm.getCurrentPosition() >= 400) {
+                if (arm.getCurrentPosition() >= 450) {
                     arm.setPower(Math.max(-1, Math.min(1, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
                 } else {
-                    arm.setPower(Math.max(-0.2, Math.min(0.2, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
+                    arm.setPower(Math.max(-0.3, Math.min(0.3, armPIDF.calculate(arm.getCurrentPosition(), armTarget))));
                 }
             }
         }
